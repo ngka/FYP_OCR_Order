@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- 菜單選項 -->
+    <LinearLayout
+        android:id="@+id/menuLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <Button
+            android:id="@+id/buttonProfile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="個人檔案"
+            android:background="#DDDDDD"
+            android:textColor="#000000"
+            android:padding="16dp" />
+
+        <Button
+            android:id="@+id/buttonFAQ"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="常見問題"
+            android:background="#DDDDDD"
+            android:textColor="#000000"
+            android:padding="16dp"
+            android:layout_marginTop="8dp" />
+
+        <Button
+            android:id="@+id/buttonContact"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="聯絡資料"
+            android:background="#DDDDDD"
+            android:textColor="#000000"
+            android:padding="16dp"
+            android:layout_marginTop="8dp" />
+
+    </LinearLayout>
+
+    <!-- 介紹程式段落 -->
+    <TextView
+        android:id="@+id/textViewIntro"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:padding="16dp"
+        android:text="這裡是程式的介紹段落。"
+        app:layout_constraintTop_toBottomOf="@id/menuLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- 影片佈局 -->
+    <LinearLayout
+        android:id="@+id/videoLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/textViewIntro"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_to="@id/menuLayout">
+
+        <ImageView
+            android:id="@+id/imageViewVideoThumbnail"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop" />
+
+        <Button
+            android:id="@+id/buttonPlayVideo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Play Video"
+            android:textColor="#FFFFFF"
+            android:padding="8dp"
+            android:layout_marginTop="16dp" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
