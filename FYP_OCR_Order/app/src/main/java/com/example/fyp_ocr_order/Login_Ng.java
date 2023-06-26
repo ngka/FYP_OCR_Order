@@ -100,7 +100,7 @@ public class Login_Ng extends AppCompatActivity {
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(Login_Ng.this, OCR.class));
+
 
                 final String emailTXT = email.getText().toString();
                 final String passwordTxT = password.getText().toString();
