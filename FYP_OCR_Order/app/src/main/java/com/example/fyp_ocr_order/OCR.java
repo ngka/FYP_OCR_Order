@@ -1,12 +1,16 @@
 package com.example.fyp_ocr_order;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -14,6 +18,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.core.ImageCapture;
 import androidx.camera.core.ImageCaptureException;
@@ -21,8 +26,12 @@ import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
+import com.google.firebase.ml.vision.document.FirebaseVisionDocumentText;
+import com.google.firebase.ml.vision.document.FirebaseVisionDocumentTextRecognizer;
 import com.google.firebase.ml.vision.text.FirebaseVisionText;
 import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer;
 import com.google.firebase.ml.vision.text.RecognizedLanguage;
@@ -30,6 +39,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -37,26 +47,59 @@ import java.util.List;
 public class OCR extends AppCompatActivity {
 
     private static final int REQUEST_IMAGE_PICK = 1;
+    private static final int REQUEST_IMAGE_CAPTURE = 2;
     private ImageView imageView;
+    private TextView recognizedTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ocr);
 
+        recognizedTextView = findViewById(R.id.txt_image);
+
         Button btnImage = findViewById(R.id.btnImage);
         btnImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pickImageFromGallery();
+                showImageDialog();
             }
         });
         imageView = findViewById(R.id.image);
     }
 
+    private void showImageDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Choose Image Source");
+        builder.setItems(new CharSequence[]{"Gallery", "Camera"},
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case 0:
+                                pickImageFromGallery();
+                                break;
+                            case 1:
+                                pickImageFromCamera();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                });
+        builder.show();
+    }
+
     private void pickImageFromGallery() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, REQUEST_IMAGE_PICK);
+    }
+
+    private void pickImageFromCamera() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
     }
 
     @Override
@@ -66,44 +109,45 @@ public class OCR extends AppCompatActivity {
         if (requestCode == REQUEST_IMAGE_PICK && resultCode == RESULT_OK && data != null) {
             Uri imageUri = data.getData();
             imageView.setImageURI(imageUri);
+            recognizeTextFromImageAndUpload(imageUri);
+        } else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK && data != null) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            imageView.setImageBitmap(imageBitmap);
+            recognizeTextFromBitmapAndUpload(imageBitmap);
         }
     }
 
-
-    private void uploadImageToFirebaseStorage(Uri imageUri) {
-        StorageReference storageRef = FirebaseStorage.getInstance().getReference();
-        StorageReference imageRef = storageRef.child("images/" + System.currentTimeMillis() + ".jpg");
-
-        UploadTask uploadTask = imageRef.putFile(imageUri);
-
-        uploadTask.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                // Handle unsuccessful uploads
-            }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                // Handle successful uploads
-                imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        // Do something with the download URL
-                        recognizeTextFromImage(uri);
-                    }
-                });
-            }
-        });
-    }
-
-    private void recognizeTextFromImage(Uri imageUri) {
-        FirebaseVisionImage image;
+    private void recognizeTextFromImageAndUpload(Uri imageUri) {
         try {
-            image = FirebaseVisionImage.fromFilePath(this, imageUri);
+            FirebaseVisionImage image = FirebaseVisionImage.fromFilePath(this, imageUri);
+
+            FirebaseVisionDocumentTextRecognizer recognizer = FirebaseVision.getInstance()
+                    .getCloudDocumentTextRecognizer();
+
+            recognizer.processImage(image)
+                    .addOnSuccessListener(new OnSuccessListener<FirebaseVisionDocumentText>() {
+                        @Override
+                        public void onSuccess(FirebaseVisionDocumentText firebaseVisionDocumentText) {
+                            String recognizedText = firebaseVisionDocumentText.getText();
+                            recognizedTextView.setText(recognizedText);
+                            uploadRecognizedText(recognizedText, imageUri);
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.e("OCR", "Error recognizing text", e);
+                        }
+                    });
+
         } catch (IOException e) {
-            e.printStackTrace();
-            return;
+            Log.e("OCR", "Error reading image file", e);
         }
+    }
+
+    private void recognizeTextFromBitmapAndUpload(Bitmap bitmap) {
+        FirebaseVisionImage image = FirebaseVisionImage.fromBitmap(bitmap);
 
         FirebaseVisionTextRecognizer recognizer = FirebaseVision.getInstance()
                 .getOnDeviceTextRecognizer();
@@ -112,49 +156,76 @@ public class OCR extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<FirebaseVisionText>() {
                     @Override
                     public void onSuccess(FirebaseVisionText firebaseVisionText) {
-                        processTextRecognitionResult(firebaseVisionText);
+                        String recognizedText = firebaseVisionText.getText();
+                        recognizedTextView.setText(recognizedText);
+                        uploadRecognizedText(recognizedText, null);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        // Process text recognition failure
+                        Log.e("OCR", "Error recognizing text", e);
                     }
                 });
     }
 
-    private void processTextRecognitionResult(FirebaseVisionText texts) {
-        List<FirebaseVisionText.TextBlock> blocks = texts.getTextBlocks();
-        if (blocks.size() == 0) {
-            // No text found in image
-            return;
-        }
-
-        StringBuilder recognizedText = new StringBuilder();
-        for (FirebaseVisionText.TextBlock block : texts.getTextBlocks()) {
-            String blockText = block.getText();
-            recognizedText.append(blockText);
-            recognizedText.append("\n");
-        }
-
-        // Upload the recognized text to Firebase Storage
+    private void uploadRecognizedText(String recognizedText, Uri imageUri) {
         StorageReference storageRef = FirebaseStorage.getInstance().getReference();
-        StorageReference textRef = storageRef.child("recognized_text/" + System.currentTimeMillis() + ".txt");
-        byte[] textBytes = recognizedText.toString().getBytes();
+        String imageName = System.currentTimeMillis() + ".jpg";
+        String textName = System.currentTimeMillis() + ".txt";
 
-        UploadTask uploadTask = textRef.putBytes(textBytes);
+        StorageReference imageRef = storageRef.child("CameraPhoto/" + imageName);
+        StorageReference textRef = storageRef.child("Cameratexts/" + textName);
 
-        uploadTask.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                // Handle unsuccessful uploads
-            }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+        UploadTask imageUpload = null; // declare the variable here
+
+        if (imageUri != null) {
+            imageUpload = imageRef.putFile(imageUri); // assign the value here
+        } else {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            byte[] data = baos.toByteArray();
+            imageUpload = imageRef.putBytes(data); // assign the value here
+        }
+
+        byte[] textBytes = recognizedText.getBytes();
+        UploadTask textUpload = textRef.putBytes(textBytes);
+
+        imageUpload.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                // Handle successful uploads
+                imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        String imageUrl = uri.toString();
+                        Log.d("OCR", "Image uploaded: " + imageUrl);
+                    }
+                });
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e("OCR", "Error uploading image", e);
+            }
+        });
+
+        textUpload.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                textRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        String textUrl = uri.toString();
+                        Log.d("OCR", "Text uploaded: " + textUrl);
+                    }
+                });
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e("OCR", "Error uploading text", e);
             }
         });
     }
 }
-
