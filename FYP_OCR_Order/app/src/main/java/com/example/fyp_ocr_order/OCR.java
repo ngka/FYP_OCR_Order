@@ -57,7 +57,7 @@ public class OCR extends AppCompatActivity {
         setContentView(R.layout.activity_ocr);
 
         recognizedTextView = findViewById(R.id.txt_image);
-
+        Button btnToCNN = findViewById(R.id.TCNN);
         Button btnImage = findViewById(R.id.btnImage);
         btnImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,8 +65,17 @@ public class OCR extends AppCompatActivity {
                 showImageDialog();
             }
         });
+        btnToCNN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(OCR.this, CNN_Ng.class);
+                startActivity(intent);
+            }
+        });
         imageView = findViewById(R.id.image);
     }
+
+
 
     private void showImageDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

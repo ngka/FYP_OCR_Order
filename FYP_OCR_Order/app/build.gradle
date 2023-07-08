@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace 'com.example.fyp_ocr_order'
-    compileSdk 34
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.example.fyp_ocr_order"
         minSdk 21
-        targetSdk 34
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -26,6 +26,9 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+    buildFeatures {
+        mlModelBinding true
     }
 }
 
@@ -47,6 +50,8 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:20.5.0'
     implementation 'androidx.camera:camera-view:1.1.0-beta02'
     implementation 'com.google.firebase:firebase-ml-vision:24.0.0'
+    implementation 'org.tensorflow:tensorflow-lite-support:0.1.0'
+    implementation 'org.tensorflow:tensorflow-lite-metadata:0.1.0'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
@@ -58,4 +63,9 @@ dependencies {
 
 
     implementation 'com.google.android.gms:play-services-mlkit-text-recognition:19.0.0'
+
+    implementation 'org.tensorflow:tensorflow-lite:2.5.0'
+
+    implementation 'org.tensorflow:tensorflow-lite-metadata:0.1.0'
+
 }
