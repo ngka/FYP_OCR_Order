@@ -9,5 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="colorAccent">#FFFFFF</color>
     <color name="tfe_semi_transparent">#66000000</color>
-
+    <color name="orange">#FFA500</color>
 </resources>

@@ -19,6 +19,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.fyp_ocr_order.ml.MyModel100;
+import com.example.fyp_ocr_order.ml.MyModel500;
 
 import org.tensorflow.lite.DataType;
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
@@ -68,7 +69,7 @@ public class CNN_Ng extends AppCompatActivity {
     }
     public void classifyImage(Bitmap image){
         try {
-            MyModel100 model = MyModel100.newInstance(getApplicationContext());
+            MyModel500 model = MyModel500.newInstance(getApplicationContext());
 
             // Creates inputs for reference.
             TensorBuffer inputFeature0 = TensorBuffer.createFixedSize(new int[]{1, 128, 128, 3}, DataType.FLOAT32);
@@ -92,15 +93,14 @@ public class CNN_Ng extends AppCompatActivity {
             inputFeature0.loadBuffer(byteBuffer);
 
             // Runs model inference and gets result.
-            MyModel100.Outputs outputs = model.process(inputFeature0);
+            MyModel500.Outputs outputs = model.process(inputFeature0);
             TensorBuffer outputFeature0 = outputs.getOutputFeature0AsTensorBuffer();
 
             float[] confidence = outputFeature0.getFloatArray();
             int maxPos=0;
             float maxConfience = 0;
             for (int i=0; i<confidence.length; i++) {
-                if (confidence[i] > maxConfience) ;
-                {
+                if (confidence[i] > maxConfience) {
                     maxConfience = confidence[i];
                     maxPos = i;
                 }
