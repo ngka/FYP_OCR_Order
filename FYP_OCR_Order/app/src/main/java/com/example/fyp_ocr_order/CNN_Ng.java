@@ -88,6 +88,7 @@ public class CNN_Ng extends AppCompatActivity {
                     byteBuffer.putFloat((val&0xFF)*(1.f/255));
 
                 }
+
             }
 
             inputFeature0.loadBuffer(byteBuffer);
@@ -104,9 +105,24 @@ public class CNN_Ng extends AppCompatActivity {
                     maxConfience = confidence[i];
                     maxPos = i;
                 }
+
             }
+
             String[] classes = {"street", "mountain", "sea", "glacier", "forest", "buildings"};
             result.setText(classes[maxPos]);
+
+            if (classes[maxPos].equals("glacier")) {
+                Uri gmmIntentUri = Uri.parse("geo:27.9881,86.9250?q=Mount Everest");
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                mapIntent.setPackage("com.google.android.apps.maps");
+                startActivity(mapIntent);
+            }
+            else if (classes[maxPos].equals("sea")) {
+                Uri gmmIntentUri = Uri.parse("geo:22.3161988,114.0702732,12z/data=!3m1!4b1?entry=ttu");
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                mapIntent.setPackage("com.google.android.apps.maps");
+                startActivity(mapIntent);
+            }
 
             // Releases model resources if no longer used.
             model.close();
