@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".Register_Ng"
     android:gravity="center"
-    android:background="@drawable/loadpaper">
+    android:background="@color/orange">
 
     <TextView
         android:layout_width="match_parent"
@@ -17,36 +17,12 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textSize="25sp" />
 
-    <LinearLayout
-        android:layout_marginTop="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Student"
-            android:textColor="#FF1C1C"
-            android:background="@drawable/forget"/>
-
-        <TextView
-            android:id="@+id/btnteacher"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:text="Teacher"
-            android:background="@drawable/forget"/>
-
-    </LinearLayout>
-
-
     <EditText
         android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="text"
+        android:textColor="@color/black"
         android:id="@+id/name"
         android:hint="Username"
         android:maxLines="1"
@@ -60,6 +36,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="text"
+        android:textColor="@color/black"
         android:id="@+id/school"
         android:hint="primary school/ secondary school"
         android:maxLines="1"
@@ -75,6 +52,7 @@
         android:layout_height="wrap_content"
         android:inputType="textEmailAddress"
         android:id="@+id/email"
+        android:textColor="@color/black"
         android:hint="Email"
         android:maxLines="1"
         android:layout_marginStart="20dp"
@@ -91,6 +69,7 @@
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:id="@+id/password"
+        android:textColor="@color/black"
         android:hint="password"
         android:maxLines="1"
         android:layout_marginStart="20dp"
@@ -106,6 +85,7 @@
         android:inputType="textPassword"
         android:id="@+id/conPassword"
         android:hint="password"
+        android:textColor="@color/black"
         android:maxLines="1"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
@@ -141,10 +121,6 @@
             android:id="@+id/loginNow"
             android:text="Login Now"
             android:textStyle="bold"/>
-
-
-
-
 
     </LinearLayout>
 

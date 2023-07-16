@@ -38,7 +38,6 @@ public class Register_Ng extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_ng);
 
-        btnteacher = findViewById(R.id.btnteacher);
 
         mAuth = FirebaseAuth.getInstance();
 
