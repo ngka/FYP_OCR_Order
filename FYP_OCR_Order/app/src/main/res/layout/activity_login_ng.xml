@@ -75,5 +75,9 @@
         app:layout_constraintVertical_bias="0.964"
         android:background="@drawable/ic_baseline_fingerprint_24"/>
 
-
+    <TextView
+        android:id="@+id/_out_encryp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints" />
 </androidx.constraintlayout.widget.ConstraintLayout>
