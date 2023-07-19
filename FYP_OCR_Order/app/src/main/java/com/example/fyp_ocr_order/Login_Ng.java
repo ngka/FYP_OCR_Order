@@ -95,6 +95,7 @@ public class Login_Ng extends AppCompatActivity {
         Button biometricLoginButton = findViewById(R.id.btn_authenticate);
         biometricLoginButton.setOnClickListener(view -> {
             biometricPrompt.authenticate(promptInfo);
+
         });
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,25 +135,7 @@ public class Login_Ng extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()) {
-                    FirebaseUser current_user = FirebaseAuth.getInstance().getCurrentUser();
-                    String uid=current_user.getUid();
-                    mDatabase= FirebaseDatabase.getInstance().getReference().child("finger").child(uid);
-                    HashMap<String,String> userMap=new HashMap<>();
 
-                    userMap.put("Decrypt", String.valueOf(output));
-                    mDatabase.setValue(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                Intent intent = new Intent(Login_Ng.this, OCR_Ng.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity(intent);
-                                finish();
-                            } else {
-                                Toast.makeText(Login_Ng.this, "Registration failed. Please try again later.", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
                     // 加密您需要存儲的敏感資料
                     try {
                         // 登入成功後跳轉到 OCR_Ng 介面
@@ -162,7 +145,7 @@ public class Login_Ng extends AppCompatActivity {
                         finish();
                     } catch (Exception e) {
                         e.printStackTrace();
-                        Toast.makeText(Login_Ng.this, "Error encrypting data", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Login_Ng.this, "Login Success", Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     Toast.makeText(Login_Ng.this, "Login failed!", Toast.LENGTH_LONG).show();

@@ -108,7 +108,7 @@ public class CNN_Ng extends AppCompatActivity {
 
             }
 
-            String[] classes = {"street", "mountain", "sea", "glacier", "forest", "buildings"};
+            String[] classes = {"DisneyLand", "HKWetlandPark", "WongTaiSin"};
             result.setText(classes[maxPos]);
 
             if (classes[maxPos].equals("glacier")) {
