@@ -5,9 +5,12 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -29,14 +32,29 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class OCR_Ng extends AppCompatActivity {
-
+    private ScaleGestureDetector scaleGestureDetector;
+    private float scaleFactor = 1f;
+    private float lastTouchX = 0f;
+    private float lastTouchY = 0f;
+    private float lastFocusX = 0f;
+    private float lastFocusY = 0f;
+    private TextView textView1;
     private static final int REQUEST_IMAGE_PICK = 1;
     private static final int REQUEST_IMAGE_CAPTURE = 2;
-    private ImageView imageView;
+    private ImageView  imageView;
     private TextView recognizedTextView;
 
     @Override
@@ -44,13 +62,26 @@ public class OCR_Ng extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ocr_ng);
 
+        // 初始化scaleGestureDetector
+        scaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
+
+        TextView textView1 = findViewById(R.id.textview);
+
         recognizedTextView = findViewById(R.id.txt_image);
         Button btnToCNN = findViewById(R.id.TCNN);
         Button btnImage = findViewById(R.id.btnImage);
+        Button btnPHP = findViewById(R.id.updatePHP);
+
         btnImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showImageDialog();
+            }
+        });
+        btnPHP.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new GetPhpData().execute();
             }
         });
         btnToCNN.setOnClickListener(new View.OnClickListener() {
@@ -61,6 +92,80 @@ public class OCR_Ng extends AppCompatActivity {
             }
         });
         imageView = findViewById(R.id.image);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent motionEvent) {
+        // 处理缩放手势
+        scaleGestureDetector.onTouchEvent(motionEvent);
+
+        // 处理移动手势
+        switch (motionEvent.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                lastTouchX = motionEvent.getX();
+                lastTouchY = motionEvent.getY();
+                break;
+            case MotionEvent.ACTION_MOVE:
+                float dx = motionEvent.getX() - lastTouchX;
+                float dy = motionEvent.getY() - lastTouchY;
+                imageView.setTranslationX(imageView.getTranslationX() + dx);
+                imageView.setTranslationY(imageView.getTranslationY() + dy);
+                lastTouchX = motionEvent.getX();
+                lastTouchY = motionEvent.getY();
+                break;
+        }
+
+        return true;
+    }
+
+    private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
+        @Override
+        public boolean onScaleBegin(ScaleGestureDetector detector) {
+            // 获取缩放焦点的坐标
+            lastFocusX = detector.getFocusX();
+            lastFocusY = detector.getFocusY();
+            return true;
+        }
+
+        @Override
+        public boolean onScale(ScaleGestureDetector scaleGestureDetector) {
+            // 计算缩放比例
+            scaleFactor *= scaleGestureDetector.getScaleFactor();
+            scaleFactor = Math.max(1f, Math.min(scaleFactor, 10.0f));
+
+            // 计算ImageView的边界
+            float viewWidth = imageView.getWidth() * scaleFactor;
+            float viewHeight = imageView.getHeight() * scaleFactor;
+            float maxWidth = imageView.getMaxWidth();
+            float maxHeight = imageView.getMaxHeight();
+
+            // 根据缩放比例调整ImageView的大小和位置
+            if (viewWidth > maxWidth) {
+                viewWidth = maxWidth;
+                scaleFactor = viewWidth / imageView.getWidth();
+            }
+            if (viewHeight > maxHeight) {
+                viewHeight = maxHeight;
+                scaleFactor = viewHeight / imageView.getHeight();
+            }
+            float translationX = (maxWidth - viewWidth) / 2;
+            float translationY = (maxHeight - viewHeight) / 2;
+            imageView.setScaleX(scaleFactor);
+            imageView.setScaleY(scaleFactor);
+
+            // 计算缩放焦点的偏移量，并将其应用到ImageView的位置上
+            float focusX = scaleGestureDetector.getFocusX();
+            float focusY = scaleGestureDetector.getFocusY();
+            float focusShiftX = (focusX - lastFocusX) * scaleFactor;
+            float focusShiftY = (focusY - lastFocusY) * scaleFactor;
+            imageView.setTranslationX(imageView.getTranslationX() + focusShiftX);
+            imageView.setTranslationY(imageView.getTranslationY() + focusShiftY);
+
+            lastFocusX = focusX;
+            lastFocusY = focusY;
+
+            return true;
+        }
     }
 
 
@@ -224,5 +329,50 @@ public class OCR_Ng extends AppCompatActivity {
                 Log.e("OCR", "Error uploading text", e);
             }
         });
+    }
+    private class GetPhpData extends AsyncTask<Void, Void, String> {
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            String result = "";
+            try {
+                // Create URL
+                URL url = new URL("file://C:/xampp/htdocs/FYP.php");
+
+                // Open URL
+                HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+
+                // request method POST
+                conn.setRequestMethod("POST");
+
+                //
+                String params = "param1=username&param2=question"; // 根据您的需要设置请求参数
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                writer.write(params);
+                writer.flush();
+                writer.close();
+                os.close();
+
+                // 获取服务器响应
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                String line;
+                while ((line = bufferedReader.readLine()) != null) {
+                    result += line;
+                }
+                bufferedReader.close();
+                conn.disconnect();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            // 在这里更新 UI
+            textView1.setText(result);
+        }
     }
 }

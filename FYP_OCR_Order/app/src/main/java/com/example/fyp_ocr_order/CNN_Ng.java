@@ -8,6 +8,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -29,6 +31,12 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 public class CNN_Ng extends AppCompatActivity {
+    private ScaleGestureDetector scaleGestureDetector;
+    private float scaleFactor = 1f;
+    private float lastTouchX = 0f;
+    private float lastTouchY = 0f;
+    private float lastFocusX = 0f;
+    private float lastFocusY = 0f;
     Button camera, gallery;
     ImageView imageView;
     TextView result;
@@ -39,6 +47,9 @@ public class CNN_Ng extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cnn_ng);
+
+        scaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
+
 
         camera = findViewById(R.id.button);
         gallery = findViewById(R.id.button2);
@@ -65,7 +76,80 @@ public class CNN_Ng extends AppCompatActivity {
                 startActivityForResult(cameraIntent,3);
             }
         });
+    }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent motionEvent) {
+        // 处理缩放手势
+        scaleGestureDetector.onTouchEvent(motionEvent);
+
+        // 处理移动手势
+        switch (motionEvent.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                lastTouchX = motionEvent.getX();
+                lastTouchY = motionEvent.getY();
+                break;
+            case MotionEvent.ACTION_MOVE:
+                float dx = motionEvent.getX() - lastTouchX;
+                float dy = motionEvent.getY() - lastTouchY;
+                imageView.setTranslationX(imageView.getTranslationX() + dx);
+                imageView.setTranslationY(imageView.getTranslationY() + dy);
+                lastTouchX = motionEvent.getX();
+                lastTouchY = motionEvent.getY();
+                break;
+        }
+
+        return true;
+    }
+
+    private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
+        @Override
+        public boolean onScaleBegin(ScaleGestureDetector detector) {
+            // 获取缩放焦点的坐标
+            lastFocusX = detector.getFocusX();
+            lastFocusY = detector.getFocusY();
+            return true;
+        }
+
+        @Override
+        public boolean onScale(ScaleGestureDetector scaleGestureDetector) {
+            // 计算缩放比例
+            scaleFactor *= scaleGestureDetector.getScaleFactor();
+            scaleFactor = Math.max(1f, Math.min(scaleFactor, 10.0f));
+
+            // 计算ImageView的边界
+            float viewWidth = imageView.getWidth() * scaleFactor;
+            float viewHeight = imageView.getHeight() * scaleFactor;
+            float maxWidth = imageView.getMaxWidth();
+            float maxHeight = imageView.getMaxHeight();
+
+            // 根据缩放比例调整ImageView的大小和位置
+            if (viewWidth > maxWidth) {
+                viewWidth = maxWidth;
+                scaleFactor = viewWidth / imageView.getWidth();
+            }
+            if (viewHeight > maxHeight) {
+                viewHeight = maxHeight;
+                scaleFactor = viewHeight / imageView.getHeight();
+            }
+            float translationX = (maxWidth - viewWidth) / 2;
+            float translationY = (maxHeight - viewHeight) / 2;
+            imageView.setScaleX(scaleFactor);
+            imageView.setScaleY(scaleFactor);
+
+            // 计算缩放焦点的偏移量，并将其应用到ImageView的位置上
+            float focusX = scaleGestureDetector.getFocusX();
+            float focusY = scaleGestureDetector.getFocusY();
+            float focusShiftX = (focusX - lastFocusX) * scaleFactor;
+            float focusShiftY = (focusY - lastFocusY) * scaleFactor;
+            imageView.setTranslationX(imageView.getTranslationX() + focusShiftX);
+            imageView.setTranslationY(imageView.getTranslationY() + focusShiftY);
+
+            lastFocusX = focusX;
+            lastFocusY = focusY;
+
+            return true;
+        }
     }
     public void classifyImage(Bitmap image){
         try {
