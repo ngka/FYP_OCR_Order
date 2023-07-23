@@ -153,7 +153,7 @@ public class CNN_Ng extends AppCompatActivity {
     }
     public void classifyImage(Bitmap image){
         try {
-            MyModel500 model = MyModel500.newInstance(getApplicationContext());
+            MyModel100 model = MyModel100.newInstance(getApplicationContext());
 
             // Creates inputs for reference.
             TensorBuffer inputFeature0 = TensorBuffer.createFixedSize(new int[]{1, 128, 128, 3}, DataType.FLOAT32);
@@ -178,7 +178,7 @@ public class CNN_Ng extends AppCompatActivity {
             inputFeature0.loadBuffer(byteBuffer);
 
             // Runs model inference and gets result.
-            MyModel500.Outputs outputs = model.process(inputFeature0);
+            MyModel100.Outputs outputs = model.process(inputFeature0);
             TensorBuffer outputFeature0 = outputs.getOutputFeature0AsTensorBuffer();
 
             float[] confidence = outputFeature0.getFloatArray();
@@ -192,21 +192,8 @@ public class CNN_Ng extends AppCompatActivity {
 
             }
 
-            String[] classes = {"DisneyLand", "HKWetlandPark", "WongTaiSin"};
+            String[] classes = {"DisneyLand", "HKWetlandPark", "WongTaiSin", "GovernmentSecretariat", "Ocean Park", "Stanley", "Tian Tan Buddha"};
             result.setText(classes[maxPos]);
-
-            if (classes[maxPos].equals("glacier")) {
-                Uri gmmIntentUri = Uri.parse("geo:27.9881,86.9250?q=Mount Everest");
-                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-                mapIntent.setPackage("com.google.android.apps.maps");
-                startActivity(mapIntent);
-            }
-            else if (classes[maxPos].equals("sea")) {
-                Uri gmmIntentUri = Uri.parse("geo:22.3161988,114.0702732,12z/data=!3m1!4b1?entry=ttu");
-                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-                mapIntent.setPackage("com.google.android.apps.maps");
-                startActivity(mapIntent);
-            }
 
             // Releases model resources if no longer used.
             model.close();

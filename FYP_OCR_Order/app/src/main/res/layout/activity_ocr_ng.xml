@@ -34,9 +34,10 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <Button
-        android:id="@+id/updatePHP"
+        android:id="@+id/submit"
         android:layout_width="74dp"
         android:layout_height="64dp"
+        android:text="Update php"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -65,8 +66,8 @@
         app:layout_constraintTop_toBottomOf="@+id/txt_image"
         app:layout_constraintVertical_bias="0.0" />
 
-    <TextView
-        android:id="@+id/textview"
+    <EditText
+        android:id="@+id/value"
         android:layout_width="418dp"
         android:layout_height="68dp"
         android:background="@color/white"

@@ -13,13 +13,19 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.ml.vision.FirebaseVision;
@@ -41,6 +47,8 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -65,23 +73,43 @@ public class OCR_Ng extends AppCompatActivity {
         // 初始化scaleGestureDetector
         scaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
 
-        TextView textView1 = findViewById(R.id.textview);
+
 
         recognizedTextView = findViewById(R.id.txt_image);
         Button btnToCNN = findViewById(R.id.TCNN);
         Button btnImage = findViewById(R.id.btnImage);
-        Button btnPHP = findViewById(R.id.updatePHP);
+        Button button = findViewById(R.id.submit);
+        EditText editText = findViewById(R.id.value);
+        button.setOnClickListener(view -> {
+            String Question = editText.getText().toString();
+            RequestQueue queue = Volley.newRequestQueue(OCR_Ng.this);
+            String url = "http://192.168.56.49/FYP/FYP_websiteData/User_Website_workVersion/create.php";
+
+            StringRequest myReq = new StringRequest(Request.Method.GET, url,
+                    response -> {
+                        if (response.equals("Success")){
+                            Toast.makeText(OCR_Ng.this, "Data added", Toast.LENGTH_SHORT).show();
+                        }
+                        else Toast.makeText(OCR_Ng.this, "FAIL", Toast.LENGTH_SHORT).show();
+
+                    },
+                    error -> {
+                        Log.e("Error", error.getLocalizedMessage());
+                    }) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("Question", Question);
+                    return params;
+                }
+            };
+            queue.add(myReq);
+        });
 
         btnImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showImageDialog();
-            }
-        });
-        btnPHP.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new GetPhpData().execute();
             }
         });
         btnToCNN.setOnClickListener(new View.OnClickListener() {
@@ -329,50 +357,5 @@ public class OCR_Ng extends AppCompatActivity {
                 Log.e("OCR", "Error uploading text", e);
             }
         });
-    }
-    private class GetPhpData extends AsyncTask<Void, Void, String> {
-
-        @Override
-        protected String doInBackground(Void... voids) {
-            String result = "";
-            try {
-                // Create URL
-                URL url = new URL("file://C:/xampp/htdocs/FYP.php");
-
-                // Open URL
-                HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
-
-                // request method POST
-                conn.setRequestMethod("POST");
-
-                //
-                String params = "param1=username&param2=question"; // 根据您的需要设置请求参数
-                OutputStream os = conn.getOutputStream();
-                BufferedWriter writer = new BufferedWriter(
-                        new OutputStreamWriter(os, "UTF-8"));
-                writer.write(params);
-                writer.flush();
-                writer.close();
-                os.close();
-
-                // 获取服务器响应
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                String line;
-                while ((line = bufferedReader.readLine()) != null) {
-                    result += line;
-                }
-                bufferedReader.close();
-                conn.disconnect();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return result;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            // 在这里更新 UI
-            textView1.setText(result);
-        }
     }
 }
