@@ -86,7 +86,7 @@ public class OCR_Ng extends AppCompatActivity {
         button.setOnClickListener(view -> {
             String Question = editText.getText().toString();
             RequestQueue queue = Volley.newRequestQueue(OCR_Ng.this);
-            String url = "http://Serverip/FYP/FYP_websiteData/User_Website_workVersion/create.php?TC=123";
+            String url = "http://MyServerip/FYP/FYP_websiteData/User_Website_workVersion/create.php?TC=123";
 
             StringRequest myReq = new StringRequest(Request.Method.GET, url,
                     response -> {
