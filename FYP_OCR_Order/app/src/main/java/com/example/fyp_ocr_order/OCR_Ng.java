@@ -60,10 +60,14 @@ public class OCR_Ng extends AppCompatActivity {
     private float lastFocusX = 0f;
     private float lastFocusY = 0f;
     private TextView textView1;
+
+
     private static final int REQUEST_IMAGE_PICK = 1;
     private static final int REQUEST_IMAGE_CAPTURE = 2;
     private ImageView  imageView;
     private TextView recognizedTextView;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,17 +77,16 @@ public class OCR_Ng extends AppCompatActivity {
         // 初始化scaleGestureDetector
         scaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
 
-
-
         recognizedTextView = findViewById(R.id.txt_image);
         Button btnToCNN = findViewById(R.id.TCNN);
         Button btnImage = findViewById(R.id.btnImage);
         Button button = findViewById(R.id.submit);
         EditText editText = findViewById(R.id.value);
+
         button.setOnClickListener(view -> {
             String Question = editText.getText().toString();
             RequestQueue queue = Volley.newRequestQueue(OCR_Ng.this);
-            String url = "http://192.168.56.49/FYP/FYP_websiteData/User_Website_workVersion/create.php";
+            String url = "http://192.168.56.49/FYP/FYP_websiteData/User_Website_workVersion/create.php?TC="+editText;
 
             StringRequest myReq = new StringRequest(Request.Method.GET, url,
                     response -> {
