@@ -10,4 +10,7 @@
     <color name="colorAccent">#FFFFFF</color>
     <color name="tfe_semi_transparent">#66000000</color>
     <color name="orange">#FFA500</color>
+    <color name="blue">#1D5D9B</color>
+    <color name="yellow"> #90C8AC </color>
+
 </resources>

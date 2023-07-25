@@ -14,6 +14,7 @@ import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -66,7 +67,7 @@ public class OCR_Ng extends AppCompatActivity {
     private static final int REQUEST_IMAGE_CAPTURE = 2;
     private ImageView  imageView;
     private TextView recognizedTextView;
-
+    ImageButton btnToCNN;
 
 
     @Override
@@ -78,7 +79,7 @@ public class OCR_Ng extends AppCompatActivity {
         scaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
 
         recognizedTextView = findViewById(R.id.txt_image);
-        Button btnToCNN = findViewById(R.id.TCNN);
+        btnToCNN = findViewById(R.id.TCNN);
         Button btnImage = findViewById(R.id.btnImage);
 
         btnImage.setOnClickListener(new View.OnClickListener() {
@@ -90,7 +91,7 @@ public class OCR_Ng extends AppCompatActivity {
         btnToCNN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(OCR_Ng.this, CNN_Ng.class);
+                Intent intent = new Intent(OCR_Ng.this, HomePage_Ng.class);
                 startActivity(intent);
             }
         });

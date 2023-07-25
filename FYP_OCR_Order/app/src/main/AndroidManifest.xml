@@ -52,6 +52,9 @@
         <activity android:name=".OCR_Ng"
             android:exported="true"
             />
+        <activity android:name=".HomePage_Ng"
+            android:exported="true"
+            />
         <activity android:name=".Feedback_Ng"
             android:exported="true"
             />

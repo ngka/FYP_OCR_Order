@@ -1,28 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="HomePage_Ng">
-
-    <TextView
-        android:id="@+id/textViewIntro"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:padding="16dp"
-        android:text="Introduction。"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".HomePage_Ng"
+    >
 
     <LinearLayout
         android:id="@+id/videoLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@id/textViewIntro"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         >
@@ -30,19 +19,103 @@
         <ImageView
             android:id="@+id/imageViewVideoThumbnail"
             android:layout_width="match_parent"
+            android:background="@drawable/textview_border1"
             android:layout_height="200dp"
             android:scaleType="centerCrop" />
+
 
         <Button
             android:id="@+id/buttonPlayVideo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Play Video"
+            android:text="Expect the video in the future"
             android:textColor="#FFFFFF"
             android:padding="8dp"
             android:layout_marginTop="16dp" />
 
     </LinearLayout>
+
+    <TextView
+        android:layout_width="241dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="28dp"
+        android:text="Introduce"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="40dp"
+        android:background="@drawable/textview_border1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/videoLayout"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:layout_width="402dp"
+        android:layout_height="268dp"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/textview_border"
+        android:text="There are various types of AI applications, and this application aims to provide convenience to users by helping them find desired locations or useful items through our features."
+        android:textAlignment="center"
+        android:textColor="@color/orange"
+        android:textSize="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.333"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/videoLayout"
+        app:layout_constraintVertical_bias="0.391" />
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:rowCount="1"
+        android:columnCount="3"
+        android:alignmentMode="alignMargins"
+        android:columnOrderPreserved="false"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_columnWeight="1"
+            android:layout_margin="8dp"
+            android:background="@drawable/round_button"
+            android:id="@+id/ocr"
+            android:text="OCR"
+            android:textColor="#FFFFFF"
+            android:textSize="10sp" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_columnWeight="1"
+            android:layout_margin="8dp"
+            android:background="@drawable/round_button"
+            android:text="CNN"
+            android:id="@+id/cnn"
+            android:textColor="#FFFFFF"
+            android:textSize="10sp" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_row="0"
+            android:layout_column="2"
+            android:layout_columnWeight="1"
+            android:layout_margin="8dp"
+            android:background="@drawable/round_button"
+            android:text="Feedback"
+            android:id="@+id/feedback"
+            android:textColor="#FFFFFF"
+            android:textSize="10sp" />
+
+    </GridLayout>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
