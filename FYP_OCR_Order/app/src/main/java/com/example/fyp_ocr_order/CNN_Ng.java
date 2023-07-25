@@ -41,7 +41,7 @@ public class CNN_Ng extends AppCompatActivity {
     ImageView imageView;
     TextView result;
 
-    int imageSize = 128;
+    int imageSize = 256;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -53,7 +53,7 @@ public class CNN_Ng extends AppCompatActivity {
 
         camera = findViewById(R.id.button);
         gallery = findViewById(R.id.button2);
-
+        Button feeback = findViewById(R.id.toFee);
         result = findViewById(R.id.result);
         imageView = findViewById(R.id.imageView);
 
@@ -74,6 +74,13 @@ public class CNN_Ng extends AppCompatActivity {
             public void onClick(View view) {
                 Intent cameraIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(cameraIntent,3);
+            }
+        });
+        feeback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CNN_Ng.this, Feedback_Ng.class);
+                startActivity(intent);
             }
         });
     }
@@ -156,7 +163,7 @@ public class CNN_Ng extends AppCompatActivity {
             MyModel100 model = MyModel100.newInstance(getApplicationContext());
 
             // Creates inputs for reference.
-            TensorBuffer inputFeature0 = TensorBuffer.createFixedSize(new int[]{1, 128, 128, 3}, DataType.FLOAT32);
+            TensorBuffer inputFeature0 = TensorBuffer.createFixedSize(new int[]{1, 256, 256, 3}, DataType.FLOAT32);
             ByteBuffer byteBuffer = ByteBuffer.allocateDirect(4* imageSize * imageSize *3);
             byteBuffer.order(ByteOrder.nativeOrder());
 
@@ -192,7 +199,7 @@ public class CNN_Ng extends AppCompatActivity {
 
             }
 
-            String[] classes = {"DisneyLand", "HKWetlandPark", "WongTaiSin", "GovernmentSecretariat", "Ocean Park", "Stanley", "Tian Tan Buddha"};
+            String[] classes = {"DisneyLand", "GovernmentSecretariat", "HKWetlandPark", "Ocean Park", "Tian Tan Buddha", "WongTaiSin"};
             result.setText(classes[maxPos]);
 
             // Releases model resources if no longer used.

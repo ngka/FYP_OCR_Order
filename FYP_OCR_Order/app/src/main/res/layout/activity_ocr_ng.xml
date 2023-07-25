@@ -33,18 +33,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
 
-    <Button
-        android:id="@+id/submit"
-        android:layout_width="74dp"
-        android:layout_height="64dp"
-        android:text="Update php"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.997" />
-
     <TextView
         android:id="@+id/txt_image"
         android:layout_width="407dp"
@@ -65,17 +53,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txt_image"
         app:layout_constraintVertical_bias="0.0" />
-
-    <EditText
-        android:id="@+id/value"
-        android:layout_width="418dp"
-        android:layout_height="68dp"
-        android:background="@color/white"
-        android:text="text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/image"
-        app:layout_constraintVertical_bias="0.598"
-        tools:layout_editor_absoluteX="-4dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -80,34 +80,6 @@ public class OCR_Ng extends AppCompatActivity {
         recognizedTextView = findViewById(R.id.txt_image);
         Button btnToCNN = findViewById(R.id.TCNN);
         Button btnImage = findViewById(R.id.btnImage);
-        Button button = findViewById(R.id.submit);
-        EditText editText = findViewById(R.id.value);
-
-        button.setOnClickListener(view -> {
-            String Question = editText.getText().toString();
-            RequestQueue queue = Volley.newRequestQueue(OCR_Ng.this);
-            String url = "http://MyServerip/FYP/FYP_websiteData/User_Website_workVersion/create.php?TC=123";
-
-            StringRequest myReq = new StringRequest(Request.Method.GET, url,
-                    response -> {
-                        if (response.equals("Success")){
-                            Toast.makeText(OCR_Ng.this, "Data added", Toast.LENGTH_SHORT).show();
-                        }
-                        else Toast.makeText(OCR_Ng.this, "FAIL", Toast.LENGTH_SHORT).show();
-
-                    },
-                    error -> {
-                        Log.e("Error", error.getLocalizedMessage());
-                    }) {
-                @Override
-                protected Map<String, String> getParams() {
-                    Map<String, String> params = new HashMap<>();
-                    params.put("Question", Question);
-                    return params;
-                }
-            };
-            queue.add(myReq);
-        });
 
         btnImage.setOnClickListener(new View.OnClickListener() {
             @Override
