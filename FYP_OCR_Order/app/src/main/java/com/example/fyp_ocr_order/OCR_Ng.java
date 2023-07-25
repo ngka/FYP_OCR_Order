@@ -59,7 +59,7 @@ public class OCR_Ng extends AppCompatActivity {
     private float lastTouchY = 0f;
     private float lastFocusX = 0f;
     private float lastFocusY = 0f;
-    private TextView textView1;
+    private TextView ttt;
 
 
     private static final int REQUEST_IMAGE_PICK = 1;
@@ -73,6 +73,8 @@ public class OCR_Ng extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ocr_ng);
+
+
 
         // 初始化scaleGestureDetector
         scaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
