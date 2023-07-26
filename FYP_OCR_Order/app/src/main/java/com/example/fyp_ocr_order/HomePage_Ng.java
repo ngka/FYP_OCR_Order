@@ -16,6 +16,7 @@ public class HomePage_Ng extends AppCompatActivity {
         Button ocr = findViewById(R.id.ocr);
         Button cnn = findViewById(R.id.cnn);
         Button feedback = findViewById(R.id.feedback);
+        Button Query = findViewById(R.id.Query);
 
         feedback.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -24,12 +25,9 @@ public class HomePage_Ng extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        ocr.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(HomePage_Ng.this, OCR_Ng.class);
-                startActivity(intent);
-            }
+        ocr.setOnClickListener(view -> {
+            Intent intent = new Intent(HomePage_Ng.this, OCR_Ng.class);
+            startActivity(intent);
         });
         cnn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -38,6 +36,15 @@ public class HomePage_Ng extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        Query.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(HomePage_Ng.this, Query_Ng.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
 }

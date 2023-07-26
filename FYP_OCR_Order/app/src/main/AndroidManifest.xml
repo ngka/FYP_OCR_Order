@@ -58,6 +58,9 @@
         <activity android:name=".Feedback_Ng"
             android:exported="true"
             />
+        <activity android:name=".Query_Ng"
+            android:exported="true"
+            />
         <activity
             android:name=".Login_Ng"
             android:exported="true"/>

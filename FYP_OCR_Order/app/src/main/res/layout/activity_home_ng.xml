@@ -37,14 +37,15 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/textView3"
         android:layout_width="241dp"
         android:layout_height="55dp"
         android:layout_marginTop="28dp"
+        android:background="@drawable/textview_border1"
         android:text="Introduce"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="40dp"
-        android:background="@drawable/textview_border1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -52,56 +53,61 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:layout_width="402dp"
-        android:layout_height="268dp"
+        android:id="@+id/textView4"
+        android:layout_width="399dp"
+        android:layout_height="143dp"
         android:layout_marginTop="28dp"
         android:background="@drawable/textview_border"
         android:text="There are various types of AI applications, and this application aims to provide convenience to users by helping them find desired locations or useful items through our features."
         android:textAlignment="center"
         android:textColor="@color/orange"
-        android:textSize="30dp"
+        android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/videoLayout"
-        app:layout_constraintVertical_bias="0.391" />
+        app:layout_constraintVertical_bias="0.256" />
 
     <GridLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:rowCount="1"
-        android:columnCount="3"
+        android:layout_width="417dp"
+        android:layout_height="174dp"
+        android:layout_marginBottom="4dp"
         android:alignmentMode="alignMargins"
+        android:columnCount="3"
         android:columnOrderPreserved="false"
-        android:layout_marginTop="16dp"
+        android:rowCount="1"
+        android:background="@color/yellow"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent">
 
         <Button
+            android:id="@+id/ocr"
             android:layout_width="0dp"
             android:layout_height="80dp"
             android:layout_columnWeight="1"
             android:layout_margin="8dp"
             android:background="@drawable/round_button"
-            android:id="@+id/ocr"
             android:text="OCR"
             android:textColor="#FFFFFF"
             android:textSize="10sp" />
 
         <Button
-            android:layout_width="0dp"
-            android:layout_height="80dp"
+            android:id="@+id/cnn"
+            android:layout_width="13dp"
+            android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="1"
             android:layout_columnWeight="1"
             android:layout_margin="8dp"
-            android:background="@drawable/round_button"
             android:text="CNN"
-            android:id="@+id/cnn"
             android:textColor="#FFFFFF"
             android:textSize="10sp" />
 
+
         <Button
+            android:id="@+id/feedback"
             android:layout_width="0dp"
             android:layout_height="80dp"
             android:layout_row="0"
@@ -110,11 +116,29 @@
             android:layout_margin="8dp"
             android:background="@drawable/round_button"
             android:text="Feedback"
-            android:id="@+id/feedback"
             android:textColor="#FFFFFF"
             android:textSize="10sp" />
 
+        <Button
+            android:id="@+id/Query"
+            android:layout_width="20dp"
+            android:layout_height="62dp"
+            android:layout_columnWeight="1"
+            android:layout_margin="8dp"
+            android:text="Query"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/round_button"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toTopOf="@+id/textView4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.36"
+            app:layout_constraintStart_toEndOf="@+id/textView3"
+            app:layout_constraintTop_toBottomOf="@+id/videoLayout"
+            app:layout_constraintVertical_bias="0.595" />
+
+
     </GridLayout>
+
 
 
 
