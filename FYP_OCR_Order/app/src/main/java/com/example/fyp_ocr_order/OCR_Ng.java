@@ -14,6 +14,7 @@ import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -66,7 +67,7 @@ public class OCR_Ng extends AppCompatActivity {
     private static final int REQUEST_IMAGE_CAPTURE = 2;
     private ImageView  imageView;
     private TextView recognizedTextView;
-
+    ImageButton btnToCNN;
 
 
     @Override
@@ -80,36 +81,8 @@ public class OCR_Ng extends AppCompatActivity {
         scaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
 
         recognizedTextView = findViewById(R.id.txt_image);
-        Button btnToCNN = findViewById(R.id.TCNN);
+        btnToCNN = findViewById(R.id.TCNN);
         Button btnImage = findViewById(R.id.btnImage);
-        Button button = findViewById(R.id.submit);
-        EditText editText = findViewById(R.id.value);
-
-        button.setOnClickListener(view -> {
-            String Question = editText.getText().toString();
-            RequestQueue queue = Volley.newRequestQueue(OCR_Ng.this);
-            String url = "http://MyServerip/FYP/FYP_websiteData/User_Website_workVersion/create.php?TC=123";
-
-            StringRequest myReq = new StringRequest(Request.Method.GET, url,
-                    response -> {
-                        if (response.equals("Success")){
-                            Toast.makeText(OCR_Ng.this, "Data added", Toast.LENGTH_SHORT).show();
-                        }
-                        else Toast.makeText(OCR_Ng.this, "FAIL", Toast.LENGTH_SHORT).show();
-
-                    },
-                    error -> {
-                        Log.e("Error", error.getLocalizedMessage());
-                    }) {
-                @Override
-                protected Map<String, String> getParams() {
-                    Map<String, String> params = new HashMap<>();
-                    params.put("Question", Question);
-                    return params;
-                }
-            };
-            queue.add(myReq);
-        });
 
         btnImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,7 +93,7 @@ public class OCR_Ng extends AppCompatActivity {
         btnToCNN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(OCR_Ng.this, CNN_Ng.class);
+                Intent intent = new Intent(OCR_Ng.this, HomePage_Ng.class);
                 startActivity(intent);
             }
         });
