@@ -33,7 +33,7 @@ public class Query_Ng extends AppCompatActivity {
             String Username = edit_Username.getText().toString();
             String Email = edit_Email.getText().toString();
             RequestQueue queue = Volley.newRequestQueue(this);
-            String url = "http://192.168.56.49/FYP/FYP_websiteData/user/get_data.php?Username="+ Username + "&Email=" + Email;
+            String url = "http://192.168.56.49/FYP/FYP_websiteData/User_Website_workVersion/get_data.php?Username="+ Username + "&Email=" + Email;
             StringRequest myReq = new StringRequest(Request.Method.GET, url,
                     response -> {
                         if (!response.equals("No data found")) {
