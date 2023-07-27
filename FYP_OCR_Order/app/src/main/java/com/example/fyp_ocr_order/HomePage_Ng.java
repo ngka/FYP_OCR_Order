@@ -17,7 +17,8 @@ public class HomePage_Ng extends AppCompatActivity {
         Button cnn = findViewById(R.id.cnn);
         Button feedback = findViewById(R.id.feedback);
         Button Query = findViewById(R.id.Query);
-
+        Button Employee = findViewById(R.id.employee);
+        Button employeeGET = findViewById(R.id.employee_query_ng);
         feedback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -41,6 +42,20 @@ public class HomePage_Ng extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(HomePage_Ng.this, Query_Ng.class);
+                startActivity(intent);
+            }
+        });
+        Employee.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(HomePage_Ng.this, Employee_Ng.class);
+                startActivity(intent);
+            }
+        });
+        employeeGET.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(HomePage_Ng.this, Employee_Query_Ng.class);
                 startActivity(intent);
             }
         });
