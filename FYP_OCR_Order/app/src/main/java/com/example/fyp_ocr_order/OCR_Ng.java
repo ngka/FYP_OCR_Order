@@ -74,6 +74,7 @@ public class OCR_Ng extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ocr_ng);
+        setTitle("Optical Character Recognition");
 
 
 

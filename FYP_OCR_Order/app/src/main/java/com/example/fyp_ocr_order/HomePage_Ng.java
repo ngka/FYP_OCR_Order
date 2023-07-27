@@ -13,6 +13,9 @@ public class HomePage_Ng extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_ng);
+        setTitle("Home Page");
+
+
         Button ocr = findViewById(R.id.ocr);
         Button cnn = findViewById(R.id.cnn);
         Button feedback = findViewById(R.id.feedback);

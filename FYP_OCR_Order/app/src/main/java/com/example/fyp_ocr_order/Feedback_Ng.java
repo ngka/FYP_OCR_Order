@@ -33,6 +33,7 @@ public class Feedback_Ng extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feedback_ng);
+        setTitle("Feedback to us");
 
         button = findViewById(R.id.submit);
         EditText edit_Username = findViewById(R.id.Username);

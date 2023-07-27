@@ -23,6 +23,7 @@ public class Query_Ng extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_query_ng);
+        setTitle("Query Question");
 
         button = findViewById(R.id.submit);
         textView = findViewById(R.id.textView);

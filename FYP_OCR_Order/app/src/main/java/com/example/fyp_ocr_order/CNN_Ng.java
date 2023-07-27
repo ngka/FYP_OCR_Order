@@ -49,6 +49,8 @@ public class CNN_Ng extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cnn_ng);
+        setTitle("Classify image");
+
 
         scaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
 

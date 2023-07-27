@@ -24,6 +24,7 @@ public class Employee_Ng extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employee_add_ng);
+        setTitle("Employee add data");
 
         button = findViewById(R.id.submit);
         EditText editText1 = findViewById(R.id.value1); //Employee_Name

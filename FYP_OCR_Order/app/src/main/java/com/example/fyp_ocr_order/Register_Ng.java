@@ -37,7 +37,7 @@ public class Register_Ng extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_ng);
-
+        setTitle("Register Page");
 
         mAuth = FirebaseAuth.getInstance();
 
