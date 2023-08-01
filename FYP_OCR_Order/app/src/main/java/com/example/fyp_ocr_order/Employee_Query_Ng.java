@@ -1,56 +1,67 @@
 package com.example.fyp_ocr_order;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
+
 import android.widget.TextView;
-import android.widget.Toast;
+
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class Employee_Query_Ng extends AppCompatActivity {
-    TextView textView;
-    ImageButton button;
+
+    RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employee_query_ng);
-        setTitle("Query Question for Employee");
+        setTitle("Data page");
 
-        button = findViewById(R.id.submit);
-        textView = findViewById(R.id.textView);
-        EditText edit_Username = findViewById(R.id.Employee_Name);
-        EditText edit_STATUS = findViewById(R.id.STATUS);
-        EditText edit_REGION = findViewById(R.id.REGION);
+        recyclerView = findViewById(R.id.recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setHasFixedSize(true);
 
-        button.setOnClickListener(view -> {
-            String Employee_Name = edit_Username.getText().toString();
-            String STATUS = edit_STATUS.getText().toString();
-            String REGION = edit_REGION.getText().toString();
+        // 讀取 JSON 文件
+        try {
+            File file = new File(getFilesDir(), "data1.json");
+            FileInputStream fis = new FileInputStream(file);
+            InputStreamReader isr = new InputStreamReader(fis);
+            BufferedReader bufferedReader = new BufferedReader(isr);
 
-            RequestQueue queue = Volley.newRequestQueue(this);
-            String url = "http://192.168.56.49/FYP/FYP_websiteData/User_Website_workVersion/Employee_get_data.php?Employee_Name=" + Employee_Name + "&STATUS=" + STATUS + "&REGION=" +REGION;
+            StringBuilder sb = new StringBuilder();
+            String line;
 
-            StringRequest myReq = new StringRequest(Request.Method.GET, url,
-                    response -> {
-                        if (!response.equals("No data found")) {
-                            String question = response.trim();
-                            textView.setText(question);
-                        } else {
-                            Toast.makeText(this, "No data found", Toast.LENGTH_SHORT).show();
-                        }
-                    },
-                    error -> Log.e("Error", error.getLocalizedMessage()));
-            queue.add(myReq);
-        });
+            while ((line = bufferedReader.readLine()) != null) {
+                sb.append(line);
+            }
+
+            // 將 JSON 字符串轉換為 JSONArray
+            JSONArray jsonArray = new JSONArray(sb.toString());
+
+            // Set adapter
+            MyAdapter adapter = new MyAdapter(jsonArray);
+            recyclerView.setAdapter(adapter);
+
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
     }
 }
 

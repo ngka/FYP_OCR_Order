@@ -20,13 +20,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
-import java.util.HashMap;
 import java.util.concurrent.Executor;
 
 import javax.crypto.Cipher;
@@ -78,7 +76,7 @@ public class Login_Ng extends AppCompatActivity {
                     @NonNull androidx.biometric.BiometricPrompt.AuthenticationResult result) {
                 super.onAuthenticationSucceeded(result);
                 encryption(String.valueOf(output)); // 加密敏感数据
-                startActivity(new Intent(Login_Ng.this, HomePage_Ng.class));
+                startActivity(new Intent(Login_Ng.this, PublicuserPage_Ng.class));
                 Toast.makeText(getApplicationContext(), "Authentication succeeded!", Toast.LENGTH_SHORT).show();
             }
 
@@ -142,7 +140,7 @@ public class Login_Ng extends AppCompatActivity {
                     // 加密您需要存儲的敏感資料
                     try {
                         // 登入成功後跳轉到 OCR_Ng 介面
-                        Intent intent = new Intent(Login_Ng.this, HomePage_Ng.class);
+                        Intent intent = new Intent(Login_Ng.this, PublicuserPage_Ng.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                         finish();

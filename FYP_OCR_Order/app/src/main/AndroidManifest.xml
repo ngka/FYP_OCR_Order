@@ -52,7 +52,10 @@
         <activity android:name=".OCR_Ng"
             android:exported="true"
             />
-        <activity android:name=".HomePage_Ng"
+        <activity android:name=".PublicuserPage_Ng"
+            android:exported="true"
+            />
+        <activity android:name=".EmployeePage_Ng"
             android:exported="true"
             />
         <activity android:name=".Feedback_Ng"
@@ -61,10 +64,13 @@
         <activity android:name=".Query_Ng"
             android:exported="true"
             />
-        <activity android:name=".Employee_Ng"
+        <activity android:name=".User_SendProblem_Ng"
             android:exported="true"
             />
         <activity android:name=".Employee_Query_Ng"
+            android:exported="true"
+            />
+        <activity android:name=".UserChoice_Ng"
             android:exported="true"
             />
         <activity

@@ -1,20 +1,12 @@
 package com.example.fyp_ocr_order;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
-import android.view.ScaleGestureDetector;
-import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
@@ -22,7 +14,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -55,7 +46,7 @@ public class Feedback_Ng extends AppCompatActivity {
                             Toast.makeText(Feedback_Ng.this, "FAIL", Toast.LENGTH_SHORT).show();
                         }
                         else Toast.makeText(Feedback_Ng.this, "Data added", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(Feedback_Ng.this, HomePage_Ng.class);
+                        Intent intent = new Intent(Feedback_Ng.this, PublicuserPage_Ng.class);
                         startActivity(intent);
                         finish();
                     },
