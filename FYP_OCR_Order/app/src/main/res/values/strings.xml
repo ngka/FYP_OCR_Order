@@ -6,4 +6,9 @@
         <!-- TODO: Add GPU  -->
         <item>GPU</item>
     </string-array>
+
+    <string-array name="user_types">
+        <item>Public User</item>
+        <item>Employee</item>
+    </string-array>
 </resources>

@@ -45,6 +45,10 @@
                 android:value="androidx.camera.integration.camera2.Camera2Config" />
         </activity>
         <activity android:name=".Register_Ng"
+            android:exported="true"
+            />
+        <activity android:name=".Employe_Register_Ng"
+            android:exported="true"
             />
         <activity android:name=".CNN_Ng"
             android:exported="true"
@@ -64,6 +68,9 @@
         <activity android:name=".Query_Ng"
             android:exported="true"
             />
+        <activity android:name=".RegisterActivity"
+            android:exported="true"
+            />
         <activity android:name=".User_SendProblem_Ng"
             android:exported="true"
             />
@@ -75,6 +82,9 @@
             />
         <activity
             android:name=".Login_Ng"
+            android:exported="true"/>
+        <activity
+            android:name=".Employee_Login_Ng"
             android:exported="true"/>
 
     </application>

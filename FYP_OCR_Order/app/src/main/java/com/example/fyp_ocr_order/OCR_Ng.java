@@ -31,6 +31,11 @@ import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.google.mlkit.common.model.DownloadConditions;
+import com.google.mlkit.nl.translate.TranslateLanguage;
+import com.google.mlkit.nl.translate.Translation;
+import com.google.mlkit.nl.translate.Translator;
+import com.google.mlkit.nl.translate.TranslatorOptions;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -50,6 +55,7 @@ public class OCR_Ng extends AppCompatActivity {
     private ImageView  imageView;
     private TextView recognizedTextView;
     ImageButton btnToCNN;
+    private TextView translatedTextView;
 
 
     @Override
@@ -63,7 +69,8 @@ public class OCR_Ng extends AppCompatActivity {
         // 初始化scaleGestureDetector
         scaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
 
-        recognizedTextView = findViewById(R.id.txt_image);
+        recognizedTextView = findViewById(R.id.recognized_text_view);
+        translatedTextView = findViewById(R.id.translated_text_view);
         btnToCNN = findViewById(R.id.TCNN);
         Button btnImage = findViewById(R.id.btnImage);
 
@@ -157,7 +164,55 @@ public class OCR_Ng extends AppCompatActivity {
         }
     }
 
+    public void translateText(String sourceText) {
+        // 創建一個翻譯選項，其中源語言為英文，目標語言為中文
+        TranslatorOptions options =
+                new TranslatorOptions.Builder()
+                        .setSourceLanguage(TranslateLanguage.ENGLISH)
+                        .setTargetLanguage(TranslateLanguage.CHINESE)
+                        .build();
 
+        // 創建一個翻譯器
+        Translator translator = Translation.getClient(options);
+
+        // 下載翻譯模型（如果尚未下載）
+        DownloadConditions conditions = new DownloadConditions.Builder()
+                .requireWifi()  // 這一行表示只在 WiFi 條件下下載模型
+                .build();
+        translator.downloadModelIfNeeded(conditions)
+                .addOnSuccessListener(
+                        new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void v) {
+                                // 模型下載成功，可以進行翻譯
+                                translator.translate(sourceText)
+                                        .addOnSuccessListener(
+                                                new OnSuccessListener<String>() {
+                                                    @Override
+                                                    public void onSuccess(String translatedText) {
+                                                        // 翻譯成功，更新 UI 以顯示翻譯結果
+                                                        translatedTextView.setText(translatedText);
+                                                    }
+                                                })
+                                        .addOnFailureListener(
+                                                new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        // 處理錯誤
+                                                        e.printStackTrace();
+                                                    }
+                                                });
+                            }
+                        })
+                .addOnFailureListener(
+                        new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                // 處理錯誤
+                                e.printStackTrace();
+                            }
+                        });
+    }
 
     private void showImageDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -222,6 +277,7 @@ public class OCR_Ng extends AppCompatActivity {
                         public void onSuccess(FirebaseVisionDocumentText firebaseVisionDocumentText) {
                             String recognizedText = firebaseVisionDocumentText.getText();
                             recognizedTextView.setText(recognizedText);
+                            translateText(recognizedText);
                             uploadRecognizedText(recognizedText, imageUri);
                         }
                     })
@@ -249,6 +305,7 @@ public class OCR_Ng extends AppCompatActivity {
                     public void onSuccess(FirebaseVisionText firebaseVisionText) {
                         String recognizedText = firebaseVisionText.getText();
                         recognizedTextView.setText(recognizedText);
+                        translateText(recognizedText);
                         uploadRecognizedText(recognizedText, null);
                     }
                 })
