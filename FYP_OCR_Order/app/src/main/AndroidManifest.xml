@@ -77,6 +77,9 @@
         <activity android:name=".Employee_Query_Ng"
             android:exported="true"
             />
+        <activity android:name=".Employee_Urgent_Ng2"
+            android:exported="true"
+            />
         <activity android:name=".UserChoice_Ng"
             android:exported="true"
             />

@@ -12,10 +12,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.android.volley.Request;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.fyp_ocr_order.ml.ModelMLP;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.tensorflow.lite.DataType;
+import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -52,78 +55,111 @@ public class User_SendProblem_Ng extends AppCompatActivity {
             // Create JSON object
             JSONObject jsonObject = new JSONObject();
             try {
+                // Convert description_txt to TensorBuffer
+                TensorBuffer inputFeature0 = convertStringToTensorBuffer(description_txt);
+
+                // Run model inference
+                ModelMLP.Outputs outputs;
+                try {
+                    ModelMLP model = ModelMLP.newInstance(getApplicationContext());
+                    outputs = model.process(inputFeature0);
+                    model.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Toast.makeText(this, "Error running model inference!", Toast.LENGTH_LONG).show();
+                    return;  // Exit the method
+                }
+
+                TensorBuffer outputFeature0 = outputs.getOutputFeature0AsTensorBuffer();
+                String classification;
+                float[] outputArr = outputFeature0.getFloatArray();
+                if (outputArr[0] > 0.5) {
+                    classification = "Non Urgent";
+                } else {
+                    classification = "Urgent";
+                }
+
+                // Use classification to determine filename
+                String filename;
+                if (classification.equals("Urgent")) {
+                    filename = "data1.json";
+                } else {
+                    filename = "data2.json";
+                }
+
                 jsonObject.put("Title", Title);
                 jsonObject.put("description_txt", description_txt);
                 jsonObject.put("day", day);
                 jsonObject.put("month", month);
                 jsonObject.put("year", year);
                 jsonObject.put("added_txt", added_txt);
+
+                File file = new File(getFilesDir(), filename);
+                JSONArray jsonArray;
+                if (file.exists()) {
+                    // If file exists, read the existing JSON array
+                    try {
+                        FileInputStream fis = new FileInputStream(file);
+                        InputStreamReader isr = new InputStreamReader(fis);
+                        BufferedReader bufferedReader = new BufferedReader(isr);
+                        StringBuilder sb = new StringBuilder();
+                        String line;
+                        while ((line = bufferedReader.readLine()) != null) {
+                            sb.append(line);
+                        }
+                        jsonArray = new JSONArray(sb.toString());
+                        bufferedReader.close();
+                        isr.close();
+                        fis.close();
+                    } catch (IOException | JSONException e) {
+                        e.printStackTrace();
+                        jsonArray = new JSONArray();
+                    }
+                } else {
+                    // If file does not exist, create a new JSON array
+                    jsonArray = new JSONArray();
+                }
+
+                // Add the new JSON object to the JSON array
+                jsonArray.put(jsonObject);
+
+                // Convert JSON array to string
+                String jsonString = jsonArray.toString();
+
+                // Save JSON string to file
+                try {
+                    FileWriter fileWriter = new FileWriter(file);
+                    fileWriter.write(jsonString);
+                    fileWriter.flush();
+                    fileWriter.close();
+
+                    // Show a Toast message to notify the user that the data has been saved
+                    String message = String.format("Data saved in %s. The AI model predicted: %s.", filename, classification);
+                    Toast.makeText(User_SendProblem_Ng.this, message, Toast.LENGTH_LONG).show();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
-            JSONArray jsonArray;
-            File file = new File(getFilesDir(), "data1.json");
-            if(file.exists()) {
-                // If file exists, read the existing JSON array
-                try {
-                    FileInputStream fis = new FileInputStream(file);
-                    InputStreamReader isr = new InputStreamReader(fis);
-                    BufferedReader bufferedReader = new BufferedReader(isr);
-                    StringBuilder sb = new StringBuilder();
-                    String line;
-                    while ((line = bufferedReader.readLine()) != null) {
-                        sb.append(line);
-                    }
-                    jsonArray = new JSONArray(sb.toString());
-                } catch (IOException | JSONException e) {
-                    e.printStackTrace();
-                    jsonArray = new JSONArray();
-                }
-            } else {
-                // If file does not exist, create a new JSON array
-                jsonArray = new JSONArray();
-            }
-
-            // Add the new JSON object to the JSON array
-            jsonArray.put(jsonObject);
-
-            // Convert JSON array to string
-            String jsonString = jsonArray.toString();
-
-            // Save JSON string to file
-            try {
-                FileWriter fileWriter = new FileWriter(file);
-                fileWriter.write(jsonString);
-                fileWriter.flush();
-                fileWriter.close();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            String url = "http://192.168.56.49/FYP/FYP_websiteData/User_Website_workVersion/addOrder_employee.php?Title=" + Title + "&description=" + description_txt + "&day=" + day + "&month=" + month + "&year=" + year+ "&added_txt=" + added_txt;
-
-            StringRequest myReq = new StringRequest(Request.Method.GET, url,
-                    response -> {
-                        if (response.equals("Success")) {
-                            Toast.makeText(User_SendProblem_Ng.this, "FAIL", Toast.LENGTH_SHORT).show();
-
-                        } else Toast.makeText(User_SendProblem_Ng.this, "Data added", Toast.LENGTH_SHORT).show();
-                    },
-                    error -> {
-                        Log.e("Error", error.getLocalizedMessage());
-                    });
-
-            Volley.newRequestQueue(User_SendProblem_Ng.this).add(myReq);
-
-            Intent intent = new Intent(User_SendProblem_Ng.this, PublicuserPage_Ng.class);
-            intent.putExtra("Title", Title);
-            intent.putExtra("description_txt", description_txt);
-            intent.putExtra("day", day);
-            intent.putExtra("month", month);
-            intent.putExtra("year", year);
-            intent.putExtra("added_txt", added_txt);
-            startActivity(intent);
         });
+    }
+    private TensorBuffer convertStringToTensorBuffer(String text) {
+        // TODO: Replace this with your actual implementation
+        // Convert the text to a one-hot encoding
+        float[] oneHot = new float[250];
+        for (int i = 0; i < text.length(); i++) {
+            char c = text.charAt(i);
+            if (c < 250) {
+                oneHot[c] = 1.0f;
+            }
+        }
+
+        // Put the one-hot encoding into a TensorBuffer
+        TensorBuffer tensorBuffer = TensorBuffer.createFixedSize(new int[]{1, 250}, DataType.FLOAT32);
+        tensorBuffer.loadArray(oneHot);
+
+        return tensorBuffer;
     }
 }
