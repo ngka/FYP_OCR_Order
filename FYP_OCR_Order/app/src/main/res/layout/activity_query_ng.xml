@@ -72,7 +72,7 @@
         android:id="@+id/submit"
         android:layout_width="87dp"
         android:layout_height="82dp"
-        android:background="@drawable/update"
+        android:background="@drawable/imgupdate"
         android:text="Update php"
 
         app:layout_constraintBottom_toBottomOf="parent"

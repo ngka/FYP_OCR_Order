@@ -5,110 +5,130 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background">
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".EmployeePage_Ng"
-    android:background="@drawable/background">
-
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="294dp"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Contractpr user"
-        android:textAlignment="center"
-        android:gravity="center"
-        android:textColor="@color/orange"
-        android:padding="16dp"
-        android:textSize="35dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:orientation="vertical"
+        tools:context=".EmployeePage_Ng"
+        android:background="@drawable/baccc"
+        >
 
-    <Button
-        android:id="@+id/ocr"
-        android:layout_width="350dp"
-        android:layout_height="135dp"
-        android:layout_marginTop="40dp"
-        android:background="@drawable/rounded_rectangle"
-        android:gravity="center"
-        android:padding="16dp"
-        android:text="OCR"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.508"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Data1"
-         />
 
-    <Button
-        android:id="@+id/cnn"
-        android:layout_width="350dp"
-        android:layout_height="135dp"
-        android:layout_marginTop="40dp"
-        android:background="@drawable/rounded_rectangle"
-        android:gravity="center"
-        android:padding="16dp"
-        android:text="CNN"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.508"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Query"
-        />
 
-    <Button
-        android:id="@+id/Query"
-        android:layout_width="350dp"
-        android:layout_height="135dp"
-        android:layout_marginTop="40dp"
-        android:background="@drawable/rounded_rectangle"
-        android:gravity="center"
-        android:padding="16dp"
-        android:text="Query"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.508"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ocr"
-        />
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:src="@drawable/txtemployee"
+            android:scaleType="centerCrop"
+            android:layout_marginBottom="30dp" />
 
-    <Button
-        android:id="@+id/Data"
-        android:layout_width="350dp"
-        android:layout_height="135dp"
-        android:layout_marginTop="40dp"
-        android:background="@drawable/rounded_rectangle"
-        android:gravity="center"
-        android:padding="16dp"
-        android:text="Urgent"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.508"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Urgent Issue"
+            android:textAlignment="center"
+            android:textColor="#013220"
+            android:textSize="30dp"/>
 
-    <Button
-        android:id="@+id/Data1"
-        android:layout_width="350dp"
-        android:layout_height="135dp"
-        android:layout_marginTop="40dp"
-        android:background="@drawable/rounded_rectangle"
-        android:gravity="center"
-        android:padding="16dp"
-        android:text="Non Urg"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.508"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Data"
-        />
+        <ImageView
+            android:id="@+id/Data1"
+            android:layout_width="350dp"
+            android:layout_height="100dp"
+            android:background="@drawable/imageback1"
+            android:src="@drawable/urgent"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginBottom="50dp"
+            android:layout_gravity="center"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Non Urgent Issue"
+            android:textAlignment="center"
+            android:textColor="#013220"
+            android:textSize="30dp"/>
+
+        <ImageView
+            android:id="@+id/Data"
+            android:layout_width="350dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:src="@drawable/imgg"
+            android:background="@drawable/imageback2"
+
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginBottom="50dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="OCR scan text"
+            android:textAlignment="center"
+            android:textColor="#013220"
+            android:textSize="30dp"/>
+
+        <ImageView
+            android:id="@+id/ocr"
+            android:layout_width="350dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:background="@drawable/imageback3"
+            android:src="@drawable/imgocr"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginBottom="50dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Query data"
+            android:textAlignment="center"
+            android:textColor="#013220"
+            android:textSize="30dp"/>
+
+        <ImageView
+            android:id="@+id/Query"
+            android:layout_width="350dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:background="@drawable/imgback4"
+            android:src="@drawable/imgquery"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginBottom="50dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Update data"
+            android:textAlignment="center"
+            android:textColor="#013220"
+            android:textSize="30dp"/>
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="350dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:background="@drawable/imageback2"
+            android:src="@drawable/update"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginBottom="50dp"/>
+
+        <ImageView
+            android:id="@+id/imageView6"
+            android:layout_width="350dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:background="@drawable/imageback2"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginBottom="50dp"/>
+
+    </LinearLayout>
 </ScrollView>

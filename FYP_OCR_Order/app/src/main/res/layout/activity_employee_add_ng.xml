@@ -49,11 +49,25 @@
         android:hint="Status"
         android:animateLayoutChanges="true"/>
 
+    <EditText
+        android:id="@+id/value7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Company"
+        android:animateLayoutChanges="true"/>
+
+    <EditText
+        android:id="@+id/value8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="FullName"
+        android:animateLayoutChanges="true"/>
+
     <ImageButton
         android:id="@+id/submit"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:background="@drawable/update"
+        android:background="@drawable/imgupdate"
         android:text="Update php"
         />
 </LinearLayout>

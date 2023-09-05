@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.android.volley.Request;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.fyp_ocr_order.ml.Model400;
 import com.example.fyp_ocr_order.ml.ModelMLP;
 
 import org.json.JSONArray;
@@ -43,6 +44,8 @@ public class User_SendProblem_Ng extends AppCompatActivity {
         EditText editText4 = findViewById(R.id.value4); //added_txt
         EditText editText5 = findViewById(R.id.value5);
         EditText editText6 = findViewById(R.id.value6);
+        EditText editText7 = findViewById(R.id.value7);
+        EditText editText8 = findViewById(R.id.value8);
 
         button.setOnClickListener(view -> {
             String Title = editText1.getText().toString();
@@ -51,7 +54,8 @@ public class User_SendProblem_Ng extends AppCompatActivity {
             String month = editText4.getText().toString();
             String added_txt = editText5.getText().toString();
             String year = editText6.getText().toString();
-
+            String company = editText7.getText().toString();
+            String fullname = editText8.getText().toString();
             // Create JSON object
             JSONObject jsonObject = new JSONObject();
             try {
@@ -59,9 +63,9 @@ public class User_SendProblem_Ng extends AppCompatActivity {
                 TensorBuffer inputFeature0 = convertStringToTensorBuffer(description_txt);
 
                 // Run model inference
-                ModelMLP.Outputs outputs;
+                Model400.Outputs outputs;
                 try {
-                    ModelMLP model = ModelMLP.newInstance(getApplicationContext());
+                    Model400 model = Model400.newInstance(getApplicationContext());
                     outputs = model.process(inputFeature0);
                     model.close();
                 } catch (IOException e) {
@@ -93,6 +97,8 @@ public class User_SendProblem_Ng extends AppCompatActivity {
                 jsonObject.put("month", month);
                 jsonObject.put("year", year);
                 jsonObject.put("added_txt", added_txt);
+                jsonObject.put("company", company);
+                jsonObject.put("fullname", fullname);
 
                 File file = new File(getFilesDir(), filename);
                 JSONArray jsonArray;
@@ -148,18 +154,18 @@ public class User_SendProblem_Ng extends AppCompatActivity {
     private TensorBuffer convertStringToTensorBuffer(String text) {
         // TODO: Replace this with your actual implementation
         // Convert the text to a one-hot encoding
-        float[] oneHot = new float[250];
+        float[] oneHot = new float[2];
         for (int i = 0; i < text.length(); i++) {
             char c = text.charAt(i);
-            if (c < 250) {
+            if (c < 2) {
                 oneHot[c] = 1.0f;
             }
         }
 
         // Put the one-hot encoding into a TensorBuffer
-        TensorBuffer tensorBuffer = TensorBuffer.createFixedSize(new int[]{1, 250}, DataType.FLOAT32);
-        tensorBuffer.loadArray(oneHot);
+        TensorBuffer inputFeature0 = TensorBuffer.createFixedSize(new int[]{1, 2}, DataType.FLOAT32);
+        inputFeature0.loadArray(oneHot);
 
-        return tensorBuffer;
+        return inputFeature0;
     }
 }

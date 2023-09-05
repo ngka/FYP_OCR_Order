@@ -33,7 +33,7 @@
         android:layout_gravity="right"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:background="@drawable/update"
+        android:background="@drawable/imgupdate"
         android:text="Update php"
         />
 </LinearLayout>

@@ -25,6 +25,8 @@ public class MyAdapterr extends RecyclerView.Adapter<MyAdapterr.ViewHolder> {
         TextView month1;
         TextView year1;
         TextView added_txt1;
+        TextView company1;
+        TextView fullname1;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -34,6 +36,8 @@ public class MyAdapterr extends RecyclerView.Adapter<MyAdapterr.ViewHolder> {
             month1 = itemView.findViewById(R.id.month);
             added_txt1 = itemView.findViewById(R.id.added_txt);
             year1 = itemView.findViewById(R.id.year);
+            company1 = itemView.findViewById(R.id.company);
+            fullname1 = itemView.findViewById(R.id.fullname1);
         }
     }
 
@@ -55,6 +59,8 @@ public class MyAdapterr extends RecyclerView.Adapter<MyAdapterr.ViewHolder> {
             holder.month1.setText(jsonObject.getString("month"));
             holder.year1.setText(jsonObject.getString("year"));
             holder.added_txt1.setText(jsonObject.getString("added_txt"));
+            holder.company1.setText(jsonObject.getString("company"));
+            holder.fullname1.setText(jsonObject.getString("fullname"));
         } catch (JSONException e) {
             e.printStackTrace();
         }

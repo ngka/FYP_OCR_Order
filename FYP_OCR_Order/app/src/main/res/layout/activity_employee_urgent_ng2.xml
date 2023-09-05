@@ -15,6 +15,10 @@
         android:layout_height="match_parent"
         android:scrollbars="vertical" />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
     <TextView
         android:id="@+id/title_txt"
         android:layout_width="wrap_content"
@@ -25,11 +29,35 @@
         android:textColor="#000" />
 
     <TextView
+        android:id="@+id/fullname1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title_txt"
+        android:layout_alignParentEnd="true"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        tools:text="fullname"
+        android:textColor="#000"/>
+
+        <TextView
+        android:id="@+id/company"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        tools:text="Company" />
+
+    </RelativeLayout>
+
+
+
+
+    <TextView
         android:id="@+id/description_txt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="#000"
         tools:text="description" />
+
 
     <RelativeLayout
         android:layout_width="match_parent"
