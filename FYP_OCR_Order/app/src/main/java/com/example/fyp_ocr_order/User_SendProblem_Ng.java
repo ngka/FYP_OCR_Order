@@ -78,7 +78,7 @@ public class User_SendProblem_Ng extends AppCompatActivity {
                 String classification;
                 float[] outputArr = outputFeature0.getFloatArray();
                 if (outputArr[0] > 0.5) {
-                    classification = "Non Urgent";
+                    classification = "NonUrgent";
                 } else {
                     classification = "Urgent";
                 }
@@ -86,9 +86,9 @@ public class User_SendProblem_Ng extends AppCompatActivity {
                 // Use classification to determine filename
                 String filename;
                 if (classification.equals("Urgent")) {
-                    filename = "data1.json";
+                    filename = "Urgent.json";
                 } else {
-                    filename = "data2.json";
+                    filename = "NonUrgent.json";
                 }
 
                 jsonObject.put("Title", Title);

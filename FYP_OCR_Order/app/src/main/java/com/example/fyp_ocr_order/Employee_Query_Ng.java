@@ -32,7 +32,7 @@ public class Employee_Query_Ng extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employee_query_ng);
-        setTitle("Data page");
+        setTitle("Urgent page");
 
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -40,7 +40,7 @@ public class Employee_Query_Ng extends AppCompatActivity {
 
         // 讀取 JSON 文件
         try {
-            File file = new File(getFilesDir(), "data1.json");
+            File file = new File(getFilesDir(), "Urgent.json");
             FileInputStream fis = new FileInputStream(file);
             InputStreamReader isr = new InputStreamReader(fis);
             BufferedReader bufferedReader = new BufferedReader(isr);

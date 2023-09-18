@@ -19,6 +19,7 @@ public class EmployeePage_Ng extends AppCompatActivity {
         ImageView Data = (ImageView) findViewById(R.id.Data);
         ImageView ocr = (ImageView) findViewById(R.id.ocr);
         ImageView Query = (ImageView) findViewById(R.id.Query);
+        ImageView Update = (ImageView) findViewById(R.id.Update);
 
 
         ocr.setOnClickListener(view -> {
@@ -48,6 +49,18 @@ public class EmployeePage_Ng extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        Update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(EmployeePage_Ng.this, EmployeeUpdate_Ng.class);
+                startActivity(intent);
+            }
+        });
+
+
+
+
 
 
     }

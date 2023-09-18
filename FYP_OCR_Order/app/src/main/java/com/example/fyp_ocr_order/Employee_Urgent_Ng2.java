@@ -32,7 +32,7 @@ public class Employee_Urgent_Ng2 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employee_urgent_ng2);
-        setTitle("Data page");
+        setTitle("Non Urgent page");
 
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -40,7 +40,7 @@ public class Employee_Urgent_Ng2 extends AppCompatActivity {
 
         // 讀取 JSON 文件
         try {
-            File file = new File(getFilesDir(), "data2.json");
+            File file = new File(getFilesDir(), "NonUrgent.json");
             FileInputStream fis = new FileInputStream(file);
             InputStreamReader isr = new InputStreamReader(fis);
             BufferedReader bufferedReader = new BufferedReader(isr);

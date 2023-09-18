@@ -59,6 +59,7 @@ public class Employee_Login_Ng extends AppCompatActivity {
         final EditText password = findViewById(R.id.password);
         final Button loginBtn = findViewById(R.id.loginBtn);
         final TextView registerNowBtn = findViewById(R.id.registerNowBtn);
+        final TextView forgotPW = findViewById(R.id.ForgotPW);
         Button button = findViewById(R.id.btn_authenticate);
 
         executor = ContextCompat.getMainExecutor(this);
@@ -127,6 +128,13 @@ public class Employee_Login_Ng extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(Employee_Login_Ng.this, Employe_Register_Ng.class));
+            }
+        });
+
+        forgotPW.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(Employee_Login_Ng.this, ResetPW_Ng.class));
             }
         });
     }

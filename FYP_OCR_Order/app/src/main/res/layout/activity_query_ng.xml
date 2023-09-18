@@ -1,88 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="25dp"
     tools:context=".Query_Ng"
     >
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="408dp"
+        android:layout_width="350dp"
         android:layout_height="45dp"
         android:text="Query history"
         android:textAlignment="center"
         android:textColor="@color/black"
-        android:textSize="30dp"
-        app:layout_constraintBottom_toTopOf="@+id/Username"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.197" />
+        android:textSize="30dp" />
+
 
     <EditText
         android:id="@+id/Username"
-        android:layout_width="385dp"
-        android:layout_height="53dp"
-        android:background="@drawable/textview_border2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:hint="Username"
-        android:textColor="@color/orange"
-        android:textColorHint="@color/black"
-        android:textSize="30dp"
-        app:layout_constraintBottom_toTopOf="@+id/Email"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        android:textColorHint="#013220"
+        android:animateLayoutChanges="true"/>
 
     <EditText
         android:id="@+id/Email"
-        android:layout_width="378dp"
-        android:layout_height="92dp"
-        android:layout_marginBottom="348dp"
-        android:background="@drawable/textview_border2"
-        android:hint="Email"
-
-        android:textColor="@color/orange"
-        android:textColorHint="@color/black"
-        android:textSize="30dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.515"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColorHint="#013220"
+        android:hint="Email "
+        android:animateLayoutChanges="true"/>
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="413dp"
-        android:layout_height="186dp"
+        android:layout_width="350dp"
+        android:layout_height="400dp"
         android:text="Query result:"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="30dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Email"
         tools:layout_editor_absoluteX="1dp" />
 
     <ImageButton
         android:id="@+id/submit"
         android:layout_width="87dp"
         android:layout_height="82dp"
+        android:layout_gravity="right"
         android:background="@drawable/imgupdate"
         android:text="Update php"
-
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.996" />
+        />
 
 
 
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

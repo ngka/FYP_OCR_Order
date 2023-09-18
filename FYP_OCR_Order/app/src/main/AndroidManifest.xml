@@ -68,6 +68,12 @@
         <activity android:name=".Query_Ng"
             android:exported="true"
             />
+        <activity android:name=".ResetPW_Ng"
+            android:exported="true"
+            />
+        <activity android:name=".EmployeeUpdate_Ng"
+            android:exported="true"
+            />
         <activity android:name=".RegisterActivity"
             android:exported="true"
             />

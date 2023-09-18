@@ -5,12 +5,13 @@ plugins {
 
 android {
     namespace 'com.example.fyp_ocr_order'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.example.fyp_ocr_order"
         minSdk 21
-        targetSdk 33
+        minSdkVersion 26
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 
@@ -72,5 +73,9 @@ dependencies {
     implementation 'com.google.mlkit:translate:17.0.1'
     implementation 'org.tensorflow:tensorflow-lite:0.0.0-nightly'
     implementation 'org.tensorflow:tensorflow-lite-support:0.0.0-nightly'
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'org.apache.poi:poi:4.1.2'
+    implementation 'org.apache.poi:poi-ooxml:4.1.2'
 
 }
