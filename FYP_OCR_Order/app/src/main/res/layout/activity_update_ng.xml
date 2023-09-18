@@ -1,9 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:padding="25dp"
     tools:context=".EmployeeUpdate_Ng">
 
@@ -17,34 +15,54 @@
 
     <EditText
         android:id="@+id/OrderID"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="OrderID "
         android:animateLayoutChanges="true"
-        android:autofillHints="OrderID" />
-
-    <Button
-        android:id="@+id/dateButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Select Date"
-        android:textColor="@color/black"
-        android:layout_gravity="right"/>
-
-
-    <Button
-        android:id="@+id/status_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Select Status"
-        android:textColor="@color/black"
-        android:layout_gravity="right"/>
+        android:autofillHints="OrderID"
+        android:layout_below="@id/EmployeeName" />
 
     <ImageButton
-        android:id="@+id/submit"
-        android:layout_width="64dp"
-        android:layout_height="84dp"
-        android:layout_gravity="right"
-        android:src="@drawable/imgupdate" />
+        android:id="@+id/button_camera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_menu_camera"
+        android:layout_toRightOf="@id/OrderID"
+        android:layout_alignTop="@id/OrderID"
+        android:layout_alignBottom="@id/OrderID" />
 
-</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/button_camera"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/dateButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date"
+            android:textColor="@color/black"
+            android:layout_marginEnd="30dp"
+            />
+
+        <Button
+            android:id="@+id/status_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Status"
+            android:layout_marginEnd="40dp"
+            android:textColor="@color/black"
+            />
+
+        <ImageButton
+            android:id="@+id/submit"
+            android:layout_width="61dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/imgupdate"
+            android:layout_marginEnd="10dp"
+            />
+
+    </LinearLayout>
+
+</RelativeLayout>
