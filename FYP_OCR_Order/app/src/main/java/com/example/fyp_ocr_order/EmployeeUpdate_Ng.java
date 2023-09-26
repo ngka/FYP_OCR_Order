@@ -41,6 +41,8 @@ public class EmployeeUpdate_Ng extends AppCompatActivity {
     private static final int REQUEST_IMAGE_CAPTURE = 0;
     EditText edit_EmployeeName;
     EditText orderIdEditText;
+    EditText Location;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +51,7 @@ public class EmployeeUpdate_Ng extends AppCompatActivity {
 
         edit_EmployeeName = findViewById(R.id.EmployeeName);
         orderIdEditText = findViewById(R.id.OrderID);
+        Location = findViewById(R.id.Location);
         dateButton = findViewById(R.id.dateButton);  // Assumes you have a Button with this id in your layout
         statusButton = findViewById(R.id.status_button);
         ImageButton button = findViewById(R.id.submit);
@@ -105,9 +108,10 @@ public class EmployeeUpdate_Ng extends AppCompatActivity {
         button.setOnClickListener(view -> {
             String EmployeeName = edit_EmployeeName.getText().toString();
             String OrderID = orderIdEditText.getText().toString();
+            String location = Location.getText().toString();
 
             RequestQueue queue = Volley.newRequestQueue(EmployeeUpdate_Ng.this);
-            String url = "http://IP/FYP/FYP_websiteData/User_Website_workVersion/update_employee.php?Employee_Name="+ EmployeeName + "&OrderID=" + OrderID + "&Date=" + date +"&STATUS=" + STATUS;
+            String url = "http://192.168.56.49/FYP/FYP_websiteData/User_Website_workVersion/update_employee.php?Employee_Name="+ EmployeeName + "&OrderID=" + OrderID + "&Date=" + date +"&STATUS=" + STATUS + "&Location=" + location;
 
             StringRequest myReq = new StringRequest(Request.Method.GET, url,
                     response -> {
@@ -127,6 +131,7 @@ public class EmployeeUpdate_Ng extends AppCompatActivity {
                     params.put("OrderID", OrderID);
                     params.put("Date", date);
                     params.put("STATUS", STATUS);
+                    params.put("Location", location);
 
                     return params;
                 }

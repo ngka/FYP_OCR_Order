@@ -95,6 +95,16 @@
         <activity
             android:name=".Employee_Login_Ng"
             android:exported="true"/>
+        <activity
+            android:name=".ContactUserActivity"
+            android:exported="true"/>
+        <activity
+            android:name=".ChatActivity"
+            android:exported="true"/>
+        <activity
+            android:name=".SerchLocation_Ng"
+            android:exported="true"/>
+
 
     </application>
 

@@ -120,8 +120,34 @@
             android:focusable="true"
             android:layout_marginBottom="50dp"/>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Chat"
+            android:textAlignment="center"
+            android:textColor="#013220"
+            android:textSize="30dp"/>
+
         <ImageView
-            android:id="@+id/imageView6"
+            android:id="@+id/Chat"
+            android:layout_width="350dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:background="@drawable/imageback2"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginBottom="50dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Find Location"
+            android:textAlignment="center"
+            android:textColor="#013220"
+            android:textSize="30dp"/>
+
+        <ImageView
+            android:id="@+id/Search"
             android:layout_width="350dp"
             android:layout_height="100dp"
             android:layout_gravity="center"

@@ -20,10 +20,16 @@ public class EmployeePage_Ng extends AppCompatActivity {
         ImageView ocr = (ImageView) findViewById(R.id.ocr);
         ImageView Query = (ImageView) findViewById(R.id.Query);
         ImageView Update = (ImageView) findViewById(R.id.Update);
-
+        ImageView Chat = (ImageView) findViewById(R.id.Chat);
+        ImageView Search = (ImageView) findViewById(R.id.Search);
 
         ocr.setOnClickListener(view -> {
             Intent intent = new Intent(EmployeePage_Ng.this, OCR_Ng.class);
+            startActivity(intent);
+        });
+
+        Chat.setOnClickListener(view -> {
+            Intent intent = new Intent(EmployeePage_Ng.this, ContactUserActivity.class);
             startActivity(intent);
         });
 
@@ -58,6 +64,13 @@ public class EmployeePage_Ng extends AppCompatActivity {
             }
         });
 
+        Search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(EmployeePage_Ng.this, SerchLocation_Ng.class);
+                startActivity(intent);
+            }
+        });
 
 
 
