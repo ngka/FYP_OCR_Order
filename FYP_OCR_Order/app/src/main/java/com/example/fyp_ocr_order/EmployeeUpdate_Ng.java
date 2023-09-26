@@ -1,9 +1,11 @@
 package com.example.fyp_ocr_order;
 
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -31,6 +33,7 @@ import com.google.mlkit.vision.text.TextRecognition;
 import com.google.mlkit.vision.text.TextRecognizer;
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions;
 
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -39,6 +42,7 @@ public class EmployeeUpdate_Ng extends AppCompatActivity {
     Button dateButton,statusButton ;
     String date, STATUS;  // Declare STATUS here
     private static final int REQUEST_IMAGE_CAPTURE = 0;
+    private static final int REQUEST_IMAGE_PICK = 1;
     EditText edit_EmployeeName;
     EditText orderIdEditText;
     EditText Location;
@@ -59,10 +63,28 @@ public class EmployeeUpdate_Ng extends AppCompatActivity {
         cameraButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-                }
+                AlertDialog.Builder builder = new AlertDialog.Builder(EmployeeUpdate_Ng.this);
+                builder.setTitle("Choose Image Source");
+                builder.setItems(new CharSequence[]{"Take Photo", "Choose from Gallery"},
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                switch (which) {
+                                    case 0: // Choose to take photo
+                                        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                                            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                                        }
+                                        break;
+
+                                    case 1: // Choose from gallery
+                                        Intent pickPhotoIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                                        startActivityForResult(pickPhotoIntent, REQUEST_IMAGE_PICK);
+                                        break;
+                                }
+                            }
+                        });
+                builder.show();
             }
         });
 
@@ -143,9 +165,20 @@ public class EmployeeUpdate_Ng extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
+        if ((requestCode == REQUEST_IMAGE_CAPTURE || requestCode == REQUEST_IMAGE_PICK) && resultCode == RESULT_OK) {
+            Bitmap imageBitmap;
+            if (requestCode == REQUEST_IMAGE_CAPTURE) {
+                Bundle extras = data.getExtras();
+                imageBitmap = (Bitmap) extras.get("data");
+            } else {
+                Uri imageUri = data.getData();
+                try {
+                    imageBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return;
+                }
+            }
 
             InputImage image = InputImage.fromBitmap(imageBitmap, 0);
             TextRecognizer textRecognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
